@@ -21,7 +21,7 @@ public class Product {
 
 	private String pcat;
 
-	private int price;
+	
 	private int qty;
 	private String photo;
 
@@ -55,12 +55,7 @@ public class Product {
 		this.pcat = pcat;
 	}
 
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
+	
 	public String getPhoto() {
 		return photo;
 	}
@@ -78,7 +73,7 @@ public class Product {
 	}
 	@Override
 	public String toString() {
-		return "Product [prodid=" + prodid + ", pname=" + pname + ", pcat=" + pcat + ", price=" + price + ", qty=" + qty
+		return "Product [prodid=" + prodid + ", pname=" + pname + ", pcat=" + pcat + ", qty=" + qty
 				+ ", photo=" + photo + ", donor=" + donor + "]";
 	}
 	

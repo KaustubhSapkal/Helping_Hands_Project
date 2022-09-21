@@ -13,7 +13,7 @@ public class ProductDTO {
 	private String pname;
 	private String pcat;
 	private String subcat;
-	private int price;
+	
 	private int qty;
 	private int sellerId;
 	private String brand;
@@ -62,12 +62,7 @@ public class ProductDTO {
 	public void setSubcat(String subcat) {
 		this.subcat = subcat;
 	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
+	
 	public int getSellerId() {
 		return sellerId;
 	}
@@ -79,7 +74,7 @@ public class ProductDTO {
 	@Override
 	public String toString() {
 		return "ProductDTO [prodid=" + prodid + ", pname=" + pname + ", pcat=" + pcat + ", subcat=" + subcat
-				+ ", price=" + price + ", qty=" + qty + ", sellerId=" + sellerId + ", pic=" + pic + "]";
+				+ ", qty=" + qty + ", sellerId=" + sellerId + ", pic=" + pic + "]";
 	}
 	public static Product toEntity(ProductDTO dto) {
 		Product entity=new Product();
