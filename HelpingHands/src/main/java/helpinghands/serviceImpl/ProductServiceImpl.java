@@ -14,6 +14,7 @@ import helpinghands.pojo.Product;
 import helpinghands.repository.ProductRepository;
 import helpinghands.service.DonorService;
 import helpinghands.service.ProductService;
+import helpinghands.utils.StorageAmazonService;
 import helpinghands.utils.StorageService;
 
 
@@ -21,18 +22,19 @@ import helpinghands.utils.StorageService;
 public class ProductServiceImpl implements ProductService{
 	
 	@Autowired ProductRepository dao;
-	@Autowired
-	private StorageService storageService;
+	//@Autowired
+	//private StorageService storageService;
 	@Autowired DonorService donorService;
 //	@Autowired ProductService productService;
 	//@Autowired OrderdetailService orderDetailsService;
-	
+	@Autowired
+	private StorageAmazonService service;
 	
 	
 	@Override
 	public void addProduct(Product p,MultipartFile pic) {
 		// TODO Auto-generated method stub
-		String photo = storageService.store(pic);
+		String photo = service.uploadFile(pic);
 		p.setPhoto(photo);
 		dao.save(p);
 	}

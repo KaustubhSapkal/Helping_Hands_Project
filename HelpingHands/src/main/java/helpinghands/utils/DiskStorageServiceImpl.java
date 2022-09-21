@@ -18,45 +18,45 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Component
 public class DiskStorageServiceImpl implements StorageService {
-	@Value("${disk.upload.basepath}")
-	private String BASEPATH;
-
-	
-	@Override
-	public List<String> loadAll() {
-		File dirPath = new File(BASEPATH);
-		return Arrays.asList(dirPath.list());
-	}
-
-	@Override
-	public String store(MultipartFile file) {
-		System.out.println(file.getOriginalFilename());
-		String ext=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
-		System.out.println(ext);
-		String fileName = UUID.randomUUID().toString().replaceAll("-", "")+ext;
-		File filePath = new File(BASEPATH, fileName);
-		try(FileOutputStream out = new FileOutputStream(filePath)) {
-			FileCopyUtils.copy(file.getInputStream(), out);
-			return fileName;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	@Override
-	public Resource load(String fileName) {
-		File filePath = new File(BASEPATH, fileName);
-		if(filePath.exists())
-			return new FileSystemResource(filePath);
-		return null;
-	}
-
-	@Override
-	public void delete(String fileName) {
-		File filePath = new File(BASEPATH, fileName);
-		if(filePath.exists())
-			filePath.delete();
-	}
+//	@Value("${disk.upload.basepath}")
+//	private String BASEPATH;
+//
+//	
+//	@Override
+//	public List<String> loadAll() {
+//		File dirPath = new File(BASEPATH);
+//		return Arrays.asList(dirPath.list());
+//	}
+//
+//	@Override
+//	public String store(MultipartFile file) {
+//		System.out.println(file.getOriginalFilename());
+//		String ext=file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
+//		System.out.println(ext);
+//		String fileName = UUID.randomUUID().toString().replaceAll("-", "")+ext;
+//		File filePath = new File(BASEPATH, fileName);
+//		try(FileOutputStream out = new FileOutputStream(filePath)) {
+//			FileCopyUtils.copy(file.getInputStream(), out);
+//			return fileName;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return null;
+//	}
+//
+//	@Override
+//	public Resource load(String fileName) {
+//		File filePath = new File(BASEPATH, fileName);
+//		if(filePath.exists())
+//			return new FileSystemResource(filePath);
+//		return null;
+//	}
+//
+//	@Override
+//	public void delete(String fileName) {
+//		File filePath = new File(BASEPATH, fileName);
+//		if(filePath.exists())
+//			filePath.delete();
+//	}
 
 }
