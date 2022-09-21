@@ -14,7 +14,6 @@ public class ProductResponseDTO {
 	private String pname;
 	private String pcat;
 	private String subcat;
-	private int price;
 	private int qty;
 	private int donorId;
 	private String donorName;
@@ -57,12 +56,7 @@ public class ProductResponseDTO {
 	public void setSubcat(String subcat) {
 		this.subcat = subcat;
 	}
-	public int getPrice() {
-		return price;
-	}
-	public void setPrice(int price) {
-		this.price = price;
-	}
+	
 	
 	public String getPhoto() {
 		return photo;
