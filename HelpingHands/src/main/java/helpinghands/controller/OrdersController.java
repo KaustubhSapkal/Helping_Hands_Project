@@ -75,8 +75,9 @@ public class OrdersController {
 		Product product=null;
 		int qty=0;
 		
+		OrderDetails od=new OrderDetails();
 		for(CartDTO cart : dto.getCart()) {
-			OrderDetails od=new OrderDetails();
+			
 			od.setOrder(orders);
 			od.setQty(cart.getQty());
 			product=productService.findProductById(cart.getProdid());
@@ -84,15 +85,18 @@ public class OrdersController {
 			sellername=product.getDonor().getName();
 			qty=cart.getQty();
 			od.setProduct(product);
-			if(qty==0) {
-				return Response.status(HttpStatus.ACCEPTED);
-			}else {
-				orderDetailsService.saveOrderDetails(od);
+			
 			}
 			
+		
+		int	qtys = product.getQty();
+		if(qty==0 || qty>qtys) {
+		return Response.status(HttpStatus.ACCEPTED);
+		}else {
+		orderDetailsService.saveOrderDetails(od);
 		}
 		
-		int qtys = product.getQty();
+		
 		int num = qtys-qty;
 		product.setQty(num);
 		productService.updateProduct(product);

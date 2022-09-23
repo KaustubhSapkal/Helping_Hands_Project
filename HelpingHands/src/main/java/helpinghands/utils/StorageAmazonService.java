@@ -47,6 +47,10 @@ public class StorageAmazonService {
         return null;
     }
     
+    public void deleteFile(String fileName) {
+        s3Client.deleteObject(bucketName, fileName);
+    }
+    
     private File convertMultiPartFileToFile(MultipartFile file) {
         File convertedFile = new File(file.getOriginalFilename());
         try (FileOutputStream fos = new FileOutputStream(convertedFile)) {

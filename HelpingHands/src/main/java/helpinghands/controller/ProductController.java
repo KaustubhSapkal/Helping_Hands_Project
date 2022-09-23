@@ -28,6 +28,7 @@ import helpinghands.response.ProductResponseDTO;
 import helpinghands.response.Response;
 import helpinghands.service.DonorService;
 import helpinghands.service.ProductService;
+import helpinghands.utils.StorageAmazonService;
 
 
 @CrossOrigin
@@ -39,6 +40,9 @@ public class ProductController {
 	private ProductService productService;
 	@Autowired
 	private DonorService donorService;
+	@Autowired
+	private StorageAmazonService service;
+	
 	
 	@PostMapping
 	public ResponseEntity<?> saveProduct(ProductDTO dto) {
@@ -116,6 +120,9 @@ public class ProductController {
 	
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> deleteProduct(@PathVariable("id") int id) {
+		Product p = productService.findProductById(id);
+		String name = p.getPhoto();
+		service.deleteFile(name);
 		productService.deleteProduct(id);
 		return Response.status(HttpStatus.OK);
 	}
