@@ -42,5 +42,5 @@ public class AdminController {
 		adminService.updateAdmin(admin);
 		return Response.status(HttpStatus.OK);
 	}
-
+	
 }

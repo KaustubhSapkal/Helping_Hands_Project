@@ -10,9 +10,11 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import helpinghands.pojo.Donor;
 import helpinghands.pojo.Product;
 import helpinghands.repository.ProductRepository;
 import helpinghands.service.DonorService;
+import helpinghands.service.OrderdetailService;
 import helpinghands.service.ProductService;
 import helpinghands.utils.StorageAmazonService;
 import helpinghands.utils.StorageService;
@@ -26,7 +28,7 @@ public class ProductServiceImpl implements ProductService{
 	//private StorageService storageService;
 	@Autowired DonorService donorService;
 //	@Autowired ProductService productService;
-	//@Autowired OrderdetailService orderDetailsService;
+	@Autowired OrderdetailService orderDetailsService;
 	@Autowired
 	private StorageAmazonService service;
 	
@@ -56,6 +58,7 @@ public class ProductServiceImpl implements ProductService{
 	public void deleteProduct(int prodid) {
 		// TODO Auto-generated method stub
 		Product p=dao.getById(prodid);
+		
 		dao.delete(p);
 	}
 
@@ -72,7 +75,7 @@ public class ProductServiceImpl implements ProductService{
 	}
 
 	@Override
-	public List<Product> categoryProducts(String pcat,String subcat) {
+	public List<Product> categoryProducts(String pcat) {
 		// TODO Auto-generated method stub
 		return dao.findByPcat(pcat,Sort.by(Sort.Direction.DESC,"prodid"));
 	}

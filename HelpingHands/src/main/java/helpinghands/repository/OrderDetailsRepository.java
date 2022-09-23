@@ -6,15 +6,17 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import helpinghands.pojo.Donor;
+import helpinghands.pojo.Order;
+import helpinghands.pojo.OrderDetails;
 import helpinghands.pojo.Product;
 
 
+
 @Repository
-public interface ProductRepository extends JpaRepository<Product, Integer> {
-	
-	List<Product> findByDonor(Donor donorId,Sort sort);
-	List<Product> findByPcat(String pcat,Sort sort);
+public interface OrderDetailsRepository extends JpaRepository<OrderDetails, Integer> {
+	List<OrderDetails> findByOrder(Order order);
+
+	List<OrderDetails> findByProduct(Product product);
 	
 	
 }

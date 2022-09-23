@@ -1,5 +1,6 @@
 package helpinghands.controller;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import helpinghands.DTO.ProductDTO;
@@ -63,6 +65,7 @@ public class ProductController {
 	
 	@GetMapping
 	public ResponseEntity<?> findAllProducts(Optional<Integer> sellerid) {
+		
 		List<ProductResponseDTO> result = new ArrayList<ProductResponseDTO>();
 		if(sellerid.isPresent()) {
 			System.out.println(sellerid);
@@ -94,15 +97,20 @@ public class ProductController {
 		return Response.success(resp);
 	}
 	
-	@GetMapping("cats")
-	public ResponseEntity<?> findCategoryProducts(String cat,String subcat) {
+	@PostMapping("/category")
+	public ResponseEntity<?> findCategoryProducts(@RequestBody String cat) {
+		StringBuffer sb= new StringBuffer(cat);
+		sb.deleteCharAt(sb.length()-1);
+		String category = sb.toString();
+		
 		List<ProductResponseDTO> result = new ArrayList<ProductResponseDTO>();
 		
-		for(Product p : productService.categoryProducts(cat, subcat)) {
+		for(Product p : productService.categoryProducts(category)) {
 			result.add(ProductResponseDTO.fromEntity(p));
 		}
 		
 		return Response.success(result);
+
 	}
 		
 	

@@ -18,6 +18,7 @@ import helpinghands.DTO.LoginDTO;
 import helpinghands.pojo.Donor;
 import helpinghands.response.Response;
 import helpinghands.service.DonorService;
+import helpinghands.service.ProductService;
 
 
 
@@ -28,6 +29,8 @@ public class DonorController {
 
 	@Autowired 
 	private DonorService donorService;
+	@Autowired 
+	private ProductService productService;
 	
 	@PostMapping
 	public ResponseEntity<?> save(@RequestBody Donor donor) {		
@@ -49,6 +52,7 @@ public class DonorController {
 	
 	@GetMapping("{id}")
 	public ResponseEntity<?> findDonorProfile(@PathVariable("id") int id) {
+		productService.deleteProduct(id);
 		Donor result = donorService.findById(id);
 		return Response.success(result);
 	}
