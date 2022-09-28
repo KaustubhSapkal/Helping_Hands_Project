@@ -35,7 +35,7 @@ import helpinghands.service.OrderService;
 import helpinghands.service.OrderdetailService;
 import helpinghands.service.ProductService;
 import helpinghands.service.ReceiverService;
-import helpinghands.serviceImpl.EmailService;
+
 
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -56,8 +56,7 @@ public class OrdersController {
 	private OrderdetailService orderDetailsService;
 	@Autowired
 	private ProductService productService;
-	@Autowired 
-	private EmailService email;
+	
 	@Autowired
 	private DonorService donorService;
 	
@@ -108,22 +107,20 @@ public class OrdersController {
 		//send email
 		System.out.println(selleremail+" "+sellername+" "+qty);
 		
-//		email.sendSimpleMessage(selleremail, "New Order Received", 
-//				"Dear "+sellername+",<br>You have been received new order from a customer"+
-//		"<br>Product Name "+product.getPname()+"<br>Product Quantity "+qty);
+
 		
 		return Response.status(HttpStatus.OK);
 	}
 	
 	
 	@GetMapping
-	public ResponseEntity<?> findAllOrders(Optional<Integer> custid) {
+	public ResponseEntity<?> findAllOrders(Optional<Integer> receiverid) {
 		List<Order> result=null;
-		if(custid.isPresent()) {
-			Receiver receiver=receiverService.findById(custid.get());
+		if(receiverid.isPresent()) {
+			Receiver receiver=receiverService.findById(receiverid.get());
 			 result= orderService.getReceiverOrders(receiver);
 		}else {
-			result = orderService.getAllOrders();
+			result=orderService.getAllOrders();
 		}
 		return Response.success(result);
 	}
@@ -146,7 +143,13 @@ public class OrdersController {
 	
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> deleteOrder(@PathVariable("id") int id) {
-		OrderDetails ord =  orderDetailsService.findById(id);
+		Order order = orderService.findById(id);
+		List<OrderDetails> orderList = orderDetailsService.findByOrder(order);
+		
+		for(OrderDetails orderdetails : orderList) {
+		//OrderDetails orderdetails = orderList.get(0);
+		System.out.println("OrderDetails = "+orderdetails.getId() );
+		OrderDetails ord =  orderDetailsService.findById(orderdetails.getId());
 		int qty=ord.getQty();
 		
 		Product prd=ord.getProduct();
@@ -155,8 +158,9 @@ public class OrdersController {
 		qty+=pqty;
 		prd.setQty(qty);
 		productService.updateProduct(prd);
-		orderDetailsService.deleteOrder(id);
+		orderDetailsService.deleteOrder(orderdetails.getId());
 		orderService.deleteOrder(id);
+		}
 		return Response.status(HttpStatus.OK);
 	}
 	
@@ -166,18 +170,21 @@ public class OrdersController {
 		System.out.println("Wellcome to Find Seller Product ID = " +id);
 		Donor donor= donorService.findById(id);
 		List <Product> product = productService.findProducts(id);
-		
-		
-		Product prd =product.get(0);
-		
-		List<OrderDetails> ord = orderDetailsService.findByProduct(prd);
-	
 		List<Object> obj =new ArrayList<Object>();
-		obj.add(ord);
-
+		
+		for(Product prd : product) {
+			List<OrderDetails> ord = orderDetailsService.findByProduct(prd);
+			
+			for(OrderDetails ords : ord) {
+				obj.add(ords);
+				System.out.println("The OrderDetails Object is ="+ords);	
+			}
+			
+		}
+	
 		System.out.println("The Seller Object is ="+donor);
 		System.out.println("The Product Object is ="+product);
-		System.out.println("The OrderDetails Object is ="+ord);
+		System.out.println("The Final Object is ="+obj);
 		
 		
 		return Response.success(obj);
